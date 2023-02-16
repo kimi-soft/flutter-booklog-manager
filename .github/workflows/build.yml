@@ -23,6 +23,6 @@ jobs:
             -H "Authorization: Bearer ${{secrets.DEPLOYGATE_API_KEY}}" \
             -X POST \
             -F "file=@booklog_manager/build/app/outputs/bundle/release/app-release.aab \
-            -F "distribution_name=$GIT_BRANCH" \
-            -F "release_note=from Github actions" \
-            -F "message=git:$GIT_HASH"
+            --form-string "distribution_name=$GIT_BRANCH" \
+            --form-string "release_note=Build from Github actions" \
+            --form-string "message=git:$GIT_HASH"
