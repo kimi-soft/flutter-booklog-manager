@@ -19,9 +19,10 @@ jobs:
       - name: Upload to Deploygate
         run: |
           curl \
-            -H "Authorization: token ${{secrets.DEPLOYGATE_API_KEY}}" \
+            --url "https://deploygate.com/api/users/${{secrets.DEPLOYGATE_USER}}/apps" \
+            -H "Authorization: Bearer ${{secrets.DEPLOYGATE_API_KEY}}" \
+            -X POST \
             -F "file=@booklog_manager/build/app/outputs/bundle/release/app-release.aab \
-            -F "message=git:$GIT_HASH" \
             -F "distribution_name=$GIT_BRANCH" \
             -F "release_note=from Github actions" \
-            "https://deploygate.com/api/users/${{secrets.DEPLOYGATE_USER}}/apps"
+            -F "message=git:$GIT_HASH"
