@@ -1,0 +1,27 @@
+name: Build app
+
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build for Android
+        run: |
+          cd booklog_manager
+          flutter build appbundle
+
+      - name: Upload to Deploygate
+        run: |
+          curl \
+            -H "Authorization: token ${{secrets.DEPLOYGATE_API_KEY}}" \
+            -F "file=@booklog_manager/build/app/outputs/bundle/release/app-release.aab \
+            -F "message=git:$GIT_HASH" \
+            -F "distribution_name=$GIT_BRANCH" \
+            -F "release_note=from Github actions" \
+            "https://deploygate.com/api/users/${{secrets.DEPLOYGATE_USER}}/apps"
