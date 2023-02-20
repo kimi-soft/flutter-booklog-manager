@@ -19,6 +19,7 @@ jobs:
 
   upload:
     runs-on: self-hosted
+    needs: build
 
     steps:
       - name: Upload to Deploygate
