@@ -17,6 +17,10 @@ jobs:
           cd booklog_manager
           flutter build appbundle
 
+  upload:
+    runs-on: self-hosted
+
+    steps:
       - name: Upload to Deploygate
         run: |
           curl \
