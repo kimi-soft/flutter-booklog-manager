@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:booklog_manager/bottom_tab.dart';
+import 'package:booklog_manager/settings_manager.dart';
 
-void main() {
+void main() async {
+  await SettingsManager().init();
+
   runApp(const MyApp());
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:booklog_manager/settings_manager.dart';
 
 class PageSettings extends StatefulWidget {
   const PageSettings({Key? key}) : super(key: key);
@@ -11,8 +12,6 @@ class PageSettings extends StatefulWidget {
 }
 
 class _PageSettingsState extends State<PageSettings> {
-  bool lockAppSwitchVal = true;
-
   void _openUrl() async {
     const url = 'https://booklog.jp';
 
@@ -25,6 +24,13 @@ class _PageSettingsState extends State<PageSettings> {
     } else {
       throw 'このURLにはアクセスできません';
     }
+  }
+
+  void _changeDisplayImage(bool isDisplayImage) {
+    setState(() {
+        SettingsManager().isDisplayImage = isDisplayImage;
+        SettingsManager().save();
+    });
   }
 
   @override
@@ -45,9 +51,8 @@ class _PageSettingsState extends State<PageSettings> {
                 ListTile(
                   leading: Icon(Icons.person),
                   title: Text('ユーザID'),
-                  subtitle: Text('2e2afb17c0ba25d2'),
+                  subtitle: Text(SettingsManager().userId),
                   onTap: () {
-                    print('tap');
                   },
                 ),
                 const Divider(),
@@ -55,18 +60,10 @@ class _PageSettingsState extends State<PageSettings> {
                   leading: const Icon(Icons.image),
                   title: const Text('カバー画像'),
                   subtitle: Text('オフの場合はタイトルのみ表示されます'),
-                  onTap: () {
-                    setState(() {
-                        lockAppSwitchVal = !lockAppSwitchVal;
-                    });
-                  },
+                  onTap: () => _changeDisplayImage(!SettingsManager().isDisplayImage),
                   trailing: Switch(
-                    value: lockAppSwitchVal,
-                    onChanged: (val) {
-                      setState(() {
-                          lockAppSwitchVal = val;
-                      });
-                    }
+                    value: SettingsManager().isDisplayImage,
+                    onChanged: (val) => _changeDisplayImage(val),
                   ),
                 ),
                 const Divider(),
