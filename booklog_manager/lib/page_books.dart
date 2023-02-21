@@ -12,10 +12,25 @@ class _PageBooksState extends State<PageBooks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: requestAPI,
-        tooltip: 'タイトル検索',
-        child: const Icon(Icons.search),
+      appBar: AppBar(
+        leading: Icon(Icons.book),
+        title: Text('本棚'),
+      ),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton.small(
+            onPressed: requestAPI,
+            child: const Icon(Icons.sync),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          FloatingActionButton(
+            onPressed: requestAPI,
+            child: const Icon(Icons.search),
+          ),
+        ],
       ),
     );
   }

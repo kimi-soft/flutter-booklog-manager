@@ -30,6 +30,10 @@ class _PageSettingsState extends State<PageSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.settings),
+        title: Text('設定'),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(12),
@@ -49,8 +53,8 @@ class _PageSettingsState extends State<PageSettings> {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.image),
-                  title: const Text('カバー画像の表示'),
-                  subtitle: Text(''),
+                  title: const Text('カバー画像'),
+                  subtitle: Text('オフの場合はタイトルのみ表示されます'),
                   onTap: () {
                     setState(() {
                         lockAppSwitchVal = !lockAppSwitchVal;
