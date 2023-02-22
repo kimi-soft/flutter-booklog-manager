@@ -3,6 +3,7 @@ import 'package:booklog_manager/bottom_tab.dart';
 import 'package:booklog_manager/settings_manager.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await SettingsManager().init();
 
   runApp(const MyApp());
