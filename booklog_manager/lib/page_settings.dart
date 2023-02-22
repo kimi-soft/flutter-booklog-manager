@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:url_launcher/link.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:booklog_manager/settings_manager.dart';
+import 'package:booklog_manager/url_launcher.dart';
 
 class PageSettings extends StatefulWidget {
   const PageSettings({Key? key}) : super(key: key);
@@ -12,20 +11,6 @@ class PageSettings extends StatefulWidget {
 }
 
 class _PageSettingsState extends State<PageSettings> {
-  void _openUrl() async {
-    const url = 'https://booklog.jp';
-
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: true,
-        forceWebView: false,
-      );
-    } else {
-      throw 'このURLにはアクセスできません';
-    }
-  }
-
   void _changeDisplayImage(bool isDisplayImage) {
     setState(() {
         SettingsManager().isDisplayImage = isDisplayImage;
@@ -71,7 +56,7 @@ class _PageSettingsState extends State<PageSettings> {
                   leading: Icon(Icons.language),
                   title: Text('ブクログへ'),
                   subtitle: Text('ブラウザが起動します'),
-                  onTap: () => _openUrl(),
+                  onTap: () => UrlLauncher.openUrl('https://booklog.jp'),
                 ),
               ],
             ),
