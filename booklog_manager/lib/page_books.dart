@@ -1,20 +1,75 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:booklog_manager/url_launcher.dart';
 
 class PageBooks extends StatefulWidget {
-
   @override
   State<PageBooks> createState() => _PageBooksState();
 }
 
 class _PageBooksState extends State<PageBooks> {
+  Widget _listItem(Book book) {
+    return Container(
+      decoration: new BoxDecoration(
+        border: new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))
+      ),
+      child: ListTile(
+        leading: CachedNetworkImage(
+          imageUrl: book.image,
+          progressIndicatorBuilder: (context, url, downloadProgress) => 
+          CircularProgressIndicator(value: downloadProgress.progress),
+          errorWidget: (context, url, error) => Icon(Icons.error),
+        ),
+        title: Text(
+          book.title,
+          style: TextStyle(
+            color:Colors.black,
+            fontSize: 14.0
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(book.catalog),
+        onTap: () {
+          UrlLauncher.openUrl(book.url);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.book),
         title: Text('本棚'),
+      ),
+      body: ListView(
+        cacheExtent: 0.0,
+        children: [
+          _listItem(Book(
+              'https://booklog.jp/users/2e2afb17c0ba25d2/archives/1/B075K3Z175',
+              'まもなく開演！(2) (電撃コミックスNEXT)',
+              'https://m.media-amazon.com/images/I/51PHXP3HcBL._SL75_.jpg',
+              'ebook',
+            )
+          ),
+          _listItem(Book(
+              'https://booklog.jp/users/2e2afb17c0ba25d2/archives/1/4048924281',
+              'まもなく開演!(1) (電撃コミックスNEXT)',
+              'https://m.media-amazon.com/images/I/51koLd5o9kL._SL75_.jpg',
+              'comic',
+            )
+          ),
+          _listItem(Book(
+              'https://booklog.jp/users/2e2afb17c0ba25d2/archives/1/4866997680',
+              '本好きの下剋上～司書になるためには手段を選んでいられません～第三部 「領地に本を広げよう！6」',
+              'https://m.media-amazon.com/images/I/51TbyYkyMBL._SL75_.jpg',
+              'comic',
+            )
+          ),
+        ],
       ),
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
@@ -71,6 +126,19 @@ class _PageBooksState extends State<PageBooks> {
       Navigator.of(context).pop();
     }
   }
+}
+
+class Tana {
+  final String account;
+  final String name;
+  final String imageUrl;
+
+  Tana(this.account, this.name, this.imageUrl);
+
+  Tana.fromJson(Map<String, dynamic> json)
+    : account = json['account'],
+      name = json['name'],
+      imageUrl = json['image_url'];
 }
 
 class Book {
