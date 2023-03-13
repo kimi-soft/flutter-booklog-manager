@@ -29,6 +29,7 @@ class _PageBooksState extends State<PageBooks> {
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 hintText: 'タイトル検索',
+                hintStyle: TextStyle(color: Colors.grey.shade300),
                 prefixIcon: Icon(Icons.search),
                 suffixIcon: IconButton(
                   onPressed: _controller.clear,
