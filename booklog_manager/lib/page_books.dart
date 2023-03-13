@@ -26,6 +26,7 @@ class _PageBooksState extends State<PageBooks> {
           child: Container(
             child: TextField(
               controller: _controller,
+              textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 hintText: 'タイトル検索',
                 prefixIcon: Icon(Icons.search),
