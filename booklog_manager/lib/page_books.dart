@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:booklog_manager/url_launcher.dart';
 
@@ -10,6 +11,41 @@ class PageBooks extends StatefulWidget {
 }
 
 class _PageBooksState extends State<PageBooks> {
+  var _controller = TextEditingController();
+
+  Widget _searchBar() {
+    return SizedBox(
+      height: 42,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.blue),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Center(
+          child: Container(
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: 'タイトル検索',
+                prefixIcon: Icon(Icons.search),
+                suffixIcon: IconButton(
+                  onPressed: _controller.clear,
+                  icon: Icon(Icons.clear),
+                ),
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                isDense: true,
+              ),
+              onSubmitted: (text) => {
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _listItem(Book book) {
     return Container(
       decoration: new BoxDecoration(
@@ -42,8 +78,13 @@ class _PageBooksState extends State<PageBooks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.book),
-        title: Text('本棚'),
+        title: _searchBar(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sync),
+            onPressed: () => _refreshDatabaseAsync(),
+          ),
+        ],
       ),
       body: ListView(
         cacheExtent: 0.0,
@@ -71,22 +112,6 @@ class _PageBooksState extends State<PageBooks> {
           ),
         ],
       ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: requestAPI,
-            child: const Icon(Icons.sync),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          FloatingActionButton(
-            onPressed: requestAPI,
-            child: const Icon(Icons.search),
-          ),
-        ],
-      ),
     );
   }
 
@@ -104,7 +129,7 @@ class _PageBooksState extends State<PageBooks> {
     );
   }
 
-  Future<void> requestAPI() async {
+  Future<void> _refreshDatabaseAsync() async {
     showProgressDialog();
 
     try {
@@ -112,7 +137,9 @@ class _PageBooksState extends State<PageBooks> {
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        print('response: ${response.body}');
+        if (kDebugMode) {
+          print('response: ${response.body}');
+        }
 
         Map<String, dynamic> responseJson = convert.jsonDecode(response.body);
         List<dynamic> books = List.from(responseJson['books']);
