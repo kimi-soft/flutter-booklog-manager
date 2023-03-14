@@ -88,12 +88,14 @@ class _PageBooksState extends State<PageBooks> {
         border: new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))
       ),
       child: ListTile(
-        leading: CachedNetworkImage(
-          imageUrl: book.image,
-          progressIndicatorBuilder: (context, url, downloadProgress) => 
-          CircularProgressIndicator(value: downloadProgress.progress),
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        ),
+        leading: SettingsManager().isDisplayImage ?
+          CachedNetworkImage(
+            imageUrl: book.image,
+            progressIndicatorBuilder: (context, url, downloadProgress) => 
+            CircularProgressIndicator(value: downloadProgress.progress),
+            errorWidget: (context, url, error) => Image.asset('images/noimage.png'),
+          ) :
+          Image.asset('images/noimage.png'),
         title: Text(
           book.title,
           style: TextStyle(
