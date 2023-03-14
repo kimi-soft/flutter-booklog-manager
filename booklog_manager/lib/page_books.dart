@@ -8,13 +8,35 @@ import 'package:booklog_manager/database_manager.dart';
 import 'package:booklog_manager/isar/book.dart';
 
 class PageBooks extends StatefulWidget {
+  var searchText = '';
+  var controller = TextEditingController();
+
   @override
   State<PageBooks> createState() => _PageBooksState();
 }
 
 class _PageBooksState extends State<PageBooks> {
-  var _searchText = '';
-  var _controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: _searchBar(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sync),
+            onPressed: () => _refreshDatabaseAsync(),
+          ),
+        ],
+      ),
+      body: ListView(
+        cacheExtent: 0.0,
+        children: [
+          for (var book in DatabaseManager().books)
+            if (widget.searchText == '' || book.title.contains(widget.searchText)) _listViewItem(book),
+        ],
+      ),
+    );
+  }
 
   Widget _searchBar() {
     return SizedBox(
@@ -28,7 +50,7 @@ class _PageBooksState extends State<PageBooks> {
         child: Center(
           child: Container(
             child: TextField(
-              controller: _controller,
+              controller: widget.controller,
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 hintText: 'タイトル検索',
@@ -37,8 +59,8 @@ class _PageBooksState extends State<PageBooks> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
-                      _controller.clear();
-                      _searchText = '';
+                      widget.controller.clear();
+                      widget.searchText = '';
                     });
                   },
                   icon: Icon(Icons.clear),
@@ -49,7 +71,7 @@ class _PageBooksState extends State<PageBooks> {
               ),
               onChanged: (text) {
                 setState(() {
-                  _searchText = text;
+                  widget.searchText = text;
                 });
               },
             ),
@@ -87,29 +109,7 @@ class _PageBooksState extends State<PageBooks> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: _searchBar(),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.sync),
-            onPressed: () => _refreshDatabaseAsync(),
-          ),
-        ],
-      ),
-      body: ListView(
-        cacheExtent: 0.0,
-        children: [
-          for (var book in DatabaseManager().books)
-            if (_searchText == '' || book.title.contains(_searchText)) _listViewItem(book),
-        ],
-      ),
-    );
-  }
-
-  void showProgressDialog() {
+  void _showProgressDialog() {
     showGeneralDialog(
       context: context,
       barrierDismissible: false,
@@ -124,10 +124,10 @@ class _PageBooksState extends State<PageBooks> {
   }
 
   Future<void> _refreshDatabaseAsync() async {
-    showProgressDialog();
+    _showProgressDialog();
 
     try {
-      var url = Uri.parse('http://api.booklog.jp/v2/json/2e2afb17c0ba25d2?count=10');
+      var url = Uri.parse('http://api.booklog.jp/v2/json/2e2afb17c0ba25d2?count=100');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
