@@ -29,12 +29,17 @@ class _PageBooksState extends State<PageBooks> {
           ),
         ],
       ),
-      body: ListView(
-        cacheExtent: 0.0,
-        children: [
-          for (var book in DatabaseManager().books)
-            if (widget.searchText == '' || book.title.contains(widget.searchText)) _listViewItem(book),
-        ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _refreshDatabaseAsync();
+        },
+        child: ListView(
+          cacheExtent: 0.0,
+          children: [
+            for (var book in DatabaseManager().books)
+              if (widget.searchText == '' || book.title.contains(widget.searchText)) _listViewItem(book),
+          ],
+        ),
       ),
     );
   }
