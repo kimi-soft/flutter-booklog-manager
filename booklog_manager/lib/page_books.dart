@@ -136,8 +136,8 @@ class _PageBooksState extends State<PageBooks> {
 
     try {
       var userId = SettingsManager().userId;
-      var url = Uri.parse('http://api.booklog.jp/v2/json/$userId?count=100');
-      print(url);
+      var maxBookCount = SettingsManager().maxBookCount;
+      var url = Uri.parse('http://api.booklog.jp/v2/json/$userId?count=$maxBookCount');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {

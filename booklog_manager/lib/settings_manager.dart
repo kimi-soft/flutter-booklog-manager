@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsManager {
   late String userId;
   late bool isDisplayImage;
+  int maxBookCount = 10000;
 
   static final SettingsManager _instance = SettingsManager._internal();
 
@@ -23,12 +24,14 @@ class SettingsManager {
   }
 
   void load() {
-    userId = _prefs.getString('userId')  ?? '';
+    userId = _prefs.getString('userId') ?? '';
     isDisplayImage = _prefs.getBool('isDisplayImage') ?? true;
+    maxBookCount = _prefs.getInt('maxBookCount') ?? 10000;
   }
 
   void save() {
     _prefs.setString('userId', userId);
     _prefs.setBool('isDisplayImage', isDisplayImage);
+    _prefs.setInt('maxBookCount', maxBookCount);
   }
 }
