@@ -24,7 +24,7 @@ class _PageBooksState extends State<PageBooks> {
         title: _searchBar(),
         actions: [
           IconButton(
-            icon: Icon(Icons.sync),
+            icon: Icon(Icons.refresh),
             onPressed: () => _refreshDatabaseAsync(),
           ),
         ],
