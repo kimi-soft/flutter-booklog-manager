@@ -28,37 +28,49 @@ class _PageSettingsState extends State<PageSettings> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text('ブクログID'),
-                  subtitle: Text(SettingsManager().userId),
-                  onTap: () {
-                    _dialogUserId(context);
-                  },
-                ),
+                _settingsUserId(),
                 const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.image),
-                  title: const Text('表紙の表示'),
-                  subtitle: Text('オフの場合は代わりの画像が表示されます'),
-                  onTap: () => _changeDisplayImage(!SettingsManager().isDisplayImage),
-                  trailing: Switch(
-                    value: SettingsManager().isDisplayImage,
-                    onChanged: (val) => _changeDisplayImage(val),
-                  ),
-                ),
+                _settingsDisplayImage(),
                 const Divider(),
-                ListTile(
-                  leading: Icon(Icons.language),
-                  title: Text('ブクログへ'),
-                  subtitle: Text('ブラウザが起動します'),
-                  onTap: () => UrlLauncher.openUrl('https://booklog.jp'),
-                ),
+                _settingsGotoBooklog(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _settingsUserId() {
+    return ListTile(
+      leading: Icon(Icons.person),
+      title: Text('ブクログID'),
+      subtitle: Text(SettingsManager().userId),
+      onTap: () {
+        _dialogUserIdAsync(context);
+      },
+    );
+  }
+
+  Widget _settingsDisplayImage() {
+    return ListTile(
+      leading: const Icon(Icons.image),
+      title: const Text('表紙の表示'),
+      subtitle: Text('オフの場合は代わりの画像が表示されます'),
+      onTap: () => _changeDisplayImage(!SettingsManager().isDisplayImage),
+      trailing: Switch(
+        value: SettingsManager().isDisplayImage,
+        onChanged: (val) => _changeDisplayImage(val),
+      ),
+    );
+  }
+
+  Widget _settingsGotoBooklog() {
+    return ListTile(
+      leading: Icon(Icons.language),
+      title: Text('ブクログへ'),
+      subtitle: Text('ブラウザが起動します'),
+      onTap: () => UrlLauncher.openUrl('https://booklog.jp'),
     );
   }
 
@@ -69,7 +81,7 @@ class _PageSettingsState extends State<PageSettings> {
     });
   }
 
-  Future<void> _dialogUserId(BuildContext context) async {
+  Future<void> _dialogUserIdAsync(BuildContext context) async {
     _controller.text = SettingsManager().userId;
 
     return showDialog(
@@ -101,6 +113,7 @@ class _PageSettingsState extends State<PageSettings> {
             ),
           ],
         );
-    });
+      },
+    );
   }
 }
