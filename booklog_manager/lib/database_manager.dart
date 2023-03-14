@@ -54,7 +54,9 @@ class DatabaseManager {
         id++;
     });
 
-    await _isar.writeTxn((_isar) => _isar.books.putAll(books));
+    if (books.length > 0) {
+      await _isar.writeTxn((_isar) => _isar.books.putAll(books));
+    }
     await findAllAsync();
   }
 }
