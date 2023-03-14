@@ -17,7 +17,7 @@ class SettingsManager {
     isDisplayImage = true;
   }
 
-  Future<void> init() async {
+  Future<void> initAsync() async {
     _prefs = await SharedPreferences.getInstance();
     load();
   }

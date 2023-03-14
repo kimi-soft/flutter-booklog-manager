@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:booklog_manager/bottom_tab.dart';
 import 'package:booklog_manager/settings_manager.dart';
+import 'package:booklog_manager/database_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SettingsManager().init();
+
+  await SettingsManager().initAsync();
+  await DatabaseManager().initAsync();
 
   runApp(const MyApp());
 }
