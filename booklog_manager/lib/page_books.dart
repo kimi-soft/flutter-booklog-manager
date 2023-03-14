@@ -134,6 +134,8 @@ class _PageBooksState extends State<PageBooks> {
   Future<void> _refreshDatabaseAsync() async {
     _showProgressDialog();
 
+    var isSuccess = true;
+
     try {
       var userId = SettingsManager().userId;
       var maxBookCount = SettingsManager().maxBookCount;
@@ -148,12 +150,51 @@ class _PageBooksState extends State<PageBooks> {
         Map<String, dynamic> responseJson = convert.jsonDecode(response.body);
         await DatabaseManager().addFromJsonAsync(responseJson);
       } else {
-        print('error');
+        isSuccess = false;
       }
+    } catch (e) {
+      isSuccess = false;
     } finally {
       setState(() {
         Navigator.of(context).pop();
+
+        if (!isSuccess) {
+          _dialogErrorAsync(context);
+        }
       });
     }
+  }
+
+  Future<void> _dialogErrorAsync(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("エラー"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Column(
+                  children: [
+                    Text('データの取得に失敗しました'),
+                    Text(''),
+                    Text('ブクログIDや公開設定を確認してください'),
+                    Text('詳しくはヘルプをご覧ください'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
