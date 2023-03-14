@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.booklog_manager">
    <application
-        android:label="booklog_manager"
+        android:label="ブクログ検索"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
