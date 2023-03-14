@@ -11,12 +11,7 @@ class PageSettings extends StatefulWidget {
 }
 
 class _PageSettingsState extends State<PageSettings> {
-  void _changeDisplayImage(bool isDisplayImage) {
-    setState(() {
-        SettingsManager().isDisplayImage = isDisplayImage;
-        SettingsManager().save();
-    });
-  }
+  var _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +30,17 @@ class _PageSettingsState extends State<PageSettings> {
               children: [
                 ListTile(
                   leading: Icon(Icons.person),
-                  title: Text('ユーザID'),
+                  title: Text('ブクログID'),
                   subtitle: Text(SettingsManager().userId),
                   onTap: () {
+                    _dialogUserId(context);
                   },
                 ),
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.image),
-                  title: const Text('カバー画像'),
-                  subtitle: Text('オフの場合はタイトルのみ表示されます'),
+                  title: const Text('表紙の表示'),
+                  subtitle: Text('オフの場合は代わりの画像が表示されます'),
                   onTap: () => _changeDisplayImage(!SettingsManager().isDisplayImage),
                   trailing: Switch(
                     value: SettingsManager().isDisplayImage,
@@ -64,5 +60,47 @@ class _PageSettingsState extends State<PageSettings> {
         ),
       ),
     );
+  }
+
+  void _changeDisplayImage(bool isDisplayImage) {
+    setState(() {
+      SettingsManager().isDisplayImage = isDisplayImage;
+      SettingsManager().save();
+    });
+  }
+
+  Future<void> _dialogUserId(BuildContext context) async {
+    _controller.text = SettingsManager().userId;
+
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('ブクログID'),
+          content: TextField(
+            controller: _controller,
+            decoration: InputDecoration(hintText: "ここに入力"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('キャンセル'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                setState(() {
+                  SettingsManager().userId = _controller.text;
+                  SettingsManager().save();
+                });
+
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+    });
   }
 }

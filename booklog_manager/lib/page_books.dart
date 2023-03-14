@@ -3,9 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:booklog_manager/url_launcher.dart';
 import 'package:booklog_manager/database_manager.dart';
 import 'package:booklog_manager/isar/book.dart';
+import 'package:booklog_manager/settings_manager.dart';
+import 'package:booklog_manager/url_launcher.dart';
 
 class PageBooks extends StatefulWidget {
   var searchText = '';
@@ -127,7 +128,9 @@ class _PageBooksState extends State<PageBooks> {
     _showProgressDialog();
 
     try {
-      var url = Uri.parse('http://api.booklog.jp/v2/json/2e2afb17c0ba25d2?count=100');
+      var userId = SettingsManager().userId;
+      var url = Uri.parse('http://api.booklog.jp/v2/json/$userId?count=100');
+      print(url);
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -137,14 +140,13 @@ class _PageBooksState extends State<PageBooks> {
 
         Map<String, dynamic> responseJson = convert.jsonDecode(response.body);
         await DatabaseManager().addFromJsonAsync(responseJson);
-
-        setState(() {
-        });
       } else {
         print('error');
       }
     } finally {
-      Navigator.of(context).pop();
+      setState(() {
+        Navigator.of(context).pop();
+      });
     }
   }
 }
