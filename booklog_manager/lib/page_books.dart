@@ -19,6 +19,15 @@ class PageBooks extends StatefulWidget {
 class _PageBooksState extends State<PageBooks> {
   @override
   Widget build(BuildContext context) {
+    int count = 0;
+    List<Book> books = [];
+    for (var book in DatabaseManager().books) {
+      if (widget.searchText == '' || book.title.contains(widget.searchText)) {
+        books.add(book);
+        count++;
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: _searchBar(),
@@ -36,8 +45,14 @@ class _PageBooksState extends State<PageBooks> {
         child: ListView(
           cacheExtent: 0.0,
           children: [
-            for (var book in DatabaseManager().books)
-              if (widget.searchText == '' || book.title.contains(widget.searchText)) _listViewItem(book),
+            Text(
+              '$count件',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            for (var book in books) _listViewItem(book),
           ],
         ),
       ),
