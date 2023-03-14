@@ -70,7 +70,7 @@ class _PageSettingsState extends State<PageSettings> {
       leading: Icon(Icons.language),
       title: Text('ブクログへ'),
       subtitle: Text('ブラウザが起動します'),
-      onTap: () => UrlLauncher.openUrl('https://booklog.jp'),
+      onTap: () => UrlLauncher.openUrlAsync('https://booklog.jp'),
     );
   }
 

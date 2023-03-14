@@ -126,7 +126,7 @@ class _PageBooksState extends State<PageBooks> {
         ),
         subtitle: Text(book.catalog),
         onTap: () {
-          UrlLauncher.openUrl(book.url);
+          UrlLauncher.openUrlAsync(book.url);
         },
       ),
     );
