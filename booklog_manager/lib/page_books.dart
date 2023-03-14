@@ -1,7 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:booklog_manager/database_manager.dart';
 import 'package:booklog_manager/isar/book.dart';
@@ -158,10 +157,6 @@ class _PageBooksState extends State<PageBooks> {
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print('response: ${response.body}');
-        }
-
         Map<String, dynamic> responseJson = convert.jsonDecode(response.body);
         await DatabaseManager().addFromJsonAsync(responseJson);
       } else {
