@@ -30,6 +30,8 @@ class _PageSettingsState extends State<PageSettings> {
               children: [
                 _settingsUserId(),
                 const Divider(),
+                _settingsReceiveBookCount(),
+                const Divider(),
                 _settingsDisplayImage(),
                 const Divider(),
                 _settingsGotoBooklog(),
@@ -48,6 +50,17 @@ class _PageSettingsState extends State<PageSettings> {
       subtitle: Text(SettingsManager().userId),
       onTap: () {
         _dialogUserIdAsync(context);
+      },
+    );
+  }
+
+  Widget _settingsReceiveBookCount() {
+    return ListTile(
+      leading: Icon(Icons.library_books),
+      title: Text('最大取得数（${SettingsManager.kMinReceiveBookCount}～${SettingsManager.kMaxReceiveBookCount}）'),
+      subtitle: Text(SettingsManager().receiveBookCount.toString()),
+      onTap: () {
+        _dialogReceiveBookCountAsync(context);
       },
     );
   }
@@ -105,6 +118,44 @@ class _PageSettingsState extends State<PageSettings> {
               onPressed: () {
                 setState(() {
                   SettingsManager().userId = _controller.text;
+                  SettingsManager().save();
+                });
+
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _dialogReceiveBookCountAsync(BuildContext context) async {
+    _controller.text = SettingsManager().receiveBookCount.toString();
+
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('最大取得数'),
+          content: TextField(
+            controller: _controller,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(hintText: "ここに入力"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('キャンセル'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                setState(() {
+                  int? receiveBookCount = int.tryParse(_controller.text);
+                  SettingsManager().receiveBookCount = SettingsManager().checkRangeReceiveBookCount(receiveBookCount != null ? receiveBookCount : SettingsManager().receiveBookCount);
                   SettingsManager().save();
                 });
 

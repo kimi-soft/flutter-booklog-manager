@@ -152,7 +152,7 @@ class _PageBooksState extends State<PageBooks> {
 
     try {
       var userId = SettingsManager().userId;
-      var maxBookCount = SettingsManager().maxBookCount;
+      var maxBookCount = SettingsManager().receiveBookCount;
       var url = Uri.parse('http://api.booklog.jp/v2/json/$userId?count=$maxBookCount');
       var response = await http.get(url);
 
