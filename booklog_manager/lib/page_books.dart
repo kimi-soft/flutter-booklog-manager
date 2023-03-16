@@ -112,7 +112,7 @@ class _PageBooksState extends State<PageBooks> {
             imageUrl: book.image,
             progressIndicatorBuilder: (context, url, downloadProgress) => 
             CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (context, url, error) => Image(image: AssetImage('images/noimage.png')),
+            errorWidget: (context, url, error) => Image(image: AssetImage('assets/images/noimage.png')),
           ) :
           Image(image: AssetImage('assets/images/noimage.png')),
         title: Text(
