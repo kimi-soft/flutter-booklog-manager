@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:booklog_manager/settings_manager.dart';
+import 'package:booklog_manager/package_info_manager.dart';
 import 'package:booklog_manager/url_launcher.dart';
 
 class PageSettings extends StatefulWidget {
@@ -35,6 +36,8 @@ class _PageSettingsState extends State<PageSettings> {
                 _settingsDisplayImage(),
                 const Divider(),
                 _settingsGotoBooklog(),
+                const Divider(),
+                _settingsVersion(),
               ],
             ),
           ),
@@ -84,6 +87,14 @@ class _PageSettingsState extends State<PageSettings> {
       title: Text('ブクログへ'),
       subtitle: Text('ブラウザが起動します'),
       onTap: () => UrlLauncher.openUrlAsync('https://booklog.jp'),
+    );
+  }
+
+  Widget _settingsVersion() {
+    return ListTile(
+      leading: Icon(Icons.info),
+      title: Text('バージョン'),
+      subtitle: Text('${PackageInfoManager().packageInfo.version}'),
     );
   }
 
