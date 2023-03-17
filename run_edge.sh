@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd booklog_manager
+cd flutter_project
 flutter run -d edge --web-browser-flag "--disable-web-security"
