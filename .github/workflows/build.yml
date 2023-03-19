@@ -17,13 +17,18 @@ jobs:
           cd booklog_manager
           flutter build appbundle
 
+  upload:
+    runs-on: self-hosted
+    needs: build
+
+    steps:
       - name: Upload to Deploygate
         run: |
           curl \
-            --url "https://deploygate.com/api/users/${{secrets.DEPLOYGATE_USER}}/apps" \
-            -H "Authorization: Bearer ${{secrets.DEPLOYGATE_API_KEY}}" \
+            --url "https://deploygate.com/api/users/${{ secrets.DEPLOYGATE_USER }}/apps" \
+            -H "Authorization: Bearer ${{ secrets.DEPLOYGATE_API_KEY }}" \
             -X POST \
             -F "file=@booklog_manager/build/app/outputs/bundle/release/app-release.aab" \
-            --form-string "distribution_name=${{github.ref_name}}" \
+            --form-string "distribution_name=${{ github.ref_name }}" \
             --form-string "release_note=Build from Github actions" \
             --form-string "message=git: ${{ github.sha }}"
