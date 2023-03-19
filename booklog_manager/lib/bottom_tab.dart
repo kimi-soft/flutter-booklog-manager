@@ -15,7 +15,6 @@ class _BottomTabState extends State<BottomTab> {
   final _pageWidgets = [
     PageBooks(),
     PageSettings(),
-    PageHelp(),
   ];
 
   @override
@@ -27,7 +26,6 @@ class _BottomTabState extends State<BottomTab> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.help), label: ''),
         ],
         currentIndex: _currentIndex,
         fixedColor: Colors.blueAccent,
