@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:booklog_manager/settings_manager.dart';
-import 'package:booklog_manager/package_info_manager.dart';
 import 'package:booklog_manager/url_launcher.dart';
 
 class PageSettings extends StatefulWidget {
