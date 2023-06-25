@@ -13,9 +13,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build for Android
-        run: |
-          cd booklog_manager
-          flutter build appbundle
+        run: make
 
   upload:
     runs-on: self-hosted
