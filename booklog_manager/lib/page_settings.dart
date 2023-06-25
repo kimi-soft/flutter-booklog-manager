@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:booklog_manager/settings_manager.dart';
-import 'package:booklog_manager/package_info_manager.dart';
 import 'package:booklog_manager/url_launcher.dart';
 
 class PageSettings extends StatefulWidget {
@@ -36,8 +35,6 @@ class _PageSettingsState extends State<PageSettings> {
                 _settingsDisplayImage(),
                 const Divider(),
                 _settingsGotoBooklog(),
-                const Divider(),
-                _settingsVersion(),
               ],
             ),
           ),
@@ -51,7 +48,6 @@ class _PageSettingsState extends State<PageSettings> {
       leading: Icon(Icons.person),
       title: Text('ブクログID'),
       subtitle: Text(SettingsManager().userId),
-      trailing: Icon(Icons.edit),
       onTap: () {
         _dialogUserIdAsync(context);
       },
@@ -63,7 +59,6 @@ class _PageSettingsState extends State<PageSettings> {
       leading: Icon(Icons.library_books),
       title: Text('最大取得数（${SettingsManager.kMinReceiveBookCount}～${SettingsManager.kMaxReceiveBookCount}）'),
       subtitle: Text(SettingsManager().receiveBookCount.toString()),
-      trailing: Icon(Icons.edit),
       onTap: () {
         _dialogReceiveBookCountAsync(context);
       },
@@ -88,16 +83,7 @@ class _PageSettingsState extends State<PageSettings> {
       leading: Icon(Icons.language),
       title: Text('ブクログへ'),
       subtitle: Text('ブラウザが起動します'),
-      trailing: Icon(Icons.open_in_browser),
       onTap: () => UrlLauncher.openUrlAsync('https://booklog.jp'),
-    );
-  }
-
-  Widget _settingsVersion() {
-    return ListTile(
-      leading: Icon(Icons.info),
-      title: Text('バージョン'),
-      subtitle: Text('${PackageInfoManager().packageInfo.version}'),
     );
   }
 
