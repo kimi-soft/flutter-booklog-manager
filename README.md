@@ -21,6 +21,7 @@ flutterで開発したアプリです
 |isar|本棚データ格納用|Web版使用のため、2.5.0を使用|
 |isar_flutter_libs|本棚データ格納用|Web版使用のため、2.5.0を使用|
 |path_provider|ファイルアクセス用||
+|flutter_launcher_icons|アイコン作成用||
 
 ## 追加開発パッケージ
 
