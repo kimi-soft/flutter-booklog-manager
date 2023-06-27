@@ -42,6 +42,7 @@ dependencies:
   isar: 2.5.0
   isar_flutter_libs: 2.5.0
   path_provider: ^2.0.13
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -99,3 +100,8 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/images/
+
+flutter_icons:       
+  android: true
+  ios: true
+  image_path: "../app_icon/app_icon.png"
