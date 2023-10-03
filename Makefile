@@ -15,3 +15,7 @@ update_app_icon:
 run_edge:
 	cd booklog_manager && \
 	  flutter run -d edge --web-browser-flag "--disable-web-security"
+
+run_chrome:
+	cd booklog_manager && \
+	  flutter run -d chrome --web-browser-flag "--disable-web-security"
