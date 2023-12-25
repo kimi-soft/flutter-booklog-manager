@@ -1,31 +1,29 @@
-# ブクログ検索
+# Booklog Manager
 
-## 概要
+## Overview
 
-flutterで開発したアプリです  
-ブクログでは本棚内検索で引っかからないタイトルがあるため、開発しました  
+This application allows you to download reading data from booklog and search for titles.
 
-## アプリ概要
+## Video
 
-本棚データをAPIで取得し、タイトルを全文検索します  
-著作者は取得できなかったため、検索できません  
+![output](https://github.com/kimi-soft/flutter-booklog-manager/assets/96122944/20e3a322-6cd3-456b-a5b9-6d7bd8fd78f4)
 
-## 追加パッケージ
+## Packages
 
-|名前|機能|備考|
+|Name|Use|Note|
 |:-|:-|:-|
-|http|通信用||
-|url_launcher|ブラウザ起動用||
-|shared_preferences|設定データ保存用||
-|cached_network_image|本の表紙画像キャッシュ用||
-|isar|本棚データ格納用|Web版使用のため、2.5.0を使用|
-|isar_flutter_libs|本棚データ格納用|Web版使用のため、2.5.0を使用|
-|path_provider|ファイルアクセス用||
-|flutter_launcher_icons|アイコン作成用||
+|http|Connection||
+|url_launcher|Launch browswer||
+|shared_preferences|Rewrite setting data||
+|cached_network_image|Cache book cover image||
+|isar|Bookshelf database|ver2.5.0|
+|isar_flutter_libs|Bookshelf database|ver2.5.0|
+|path_provider|Access files||
+|flutter_launcher_icons|Application icon||
 
-## 追加開発パッケージ
+## Develop Packages
 
-|名前|機能|備考|
+|Name|Use|Note|
 |:-|:-|:-|
-|isar_generator|本棚データ格納用|Web版使用のため、2.5.0を使用|
-|build_runner|ローカルデータベースデータ生成用||
+|isar_generator|Bookshelf database|ver2.5.0|
+|build_runner|Create local database||
