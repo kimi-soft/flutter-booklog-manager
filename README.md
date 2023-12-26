@@ -1,4 +1,4 @@
-# Booklog Manager
+# Search books in Booklog smartphone application
 
 ## Overview
 
